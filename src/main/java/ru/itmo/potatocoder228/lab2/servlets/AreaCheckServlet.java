@@ -1,8 +1,8 @@
-package ru.itmo.potatocoder228.lab2.web_lab2.servlets;
+package ru.itmo.potatocoder228.lab2.servlets;
 
-import ru.itmo.potatocoder228.lab2.web_lab2.beans.Raw;
-import ru.itmo.potatocoder228.lab2.web_lab2.beans.RawBean;
-import ru.itmo.potatocoder228.lab2.web_lab2.exceptions.WrongDataException;
+import ru.itmo.potatocoder228.lab2.beans.Raw;
+import ru.itmo.potatocoder228.lab2.beans.RawBean;
+import ru.itmo.potatocoder228.lab2.exceptions.WrongDataException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
+
+import static java.lang.System.out;
 
 /**
  * AreaCheckServlet - handling hit point and getting html-page
@@ -23,16 +23,13 @@ import java.util.List;
 @WebServlet(name = "AreaCheckServlet", value = "/check")
 public class AreaCheckServlet extends HttpServlet {
 
-    private List<Integer> yRange = Arrays.asList(-4, -3, -2, -1, 0, 1, 2, 3, 4);
-    private List<Integer> rRange = Arrays.asList(1, 2, 3, 4, 5);
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long startTime = System.nanoTime();
 
-        String x = req.getParameter("x_coordinate");
-        String y = req.getParameter("y_coordinate");
-        String r = req.getParameter("r_coordinate");
+        String x = req.getParameter("x");
+        String y = req.getParameter("y");
+        String r = req.getParameter("r");
 
         double xValue;
         int yValue, rValue;
@@ -49,9 +46,9 @@ public class AreaCheckServlet extends HttpServlet {
             yValue = validateY(y);
             rValue = validateR(r);
 
-             boolean isInside =  insideCircle(xValue, yValue, rValue) ||
-                                insideTriangle(xValue, yValue, rValue) ||
-                                insideRectangle(xValue, yValue, rValue);
+            boolean isInside = insideCircle(xValue, yValue, rValue) ||
+                    insideTriangle(xValue, yValue, rValue) ||
+                    insideRectangle(xValue, yValue, rValue);
 
             OffsetDateTime currentTimeObject = OffsetDateTime.now(ZoneOffset.UTC);
             String currentTime;
@@ -61,7 +58,7 @@ public class AreaCheckServlet extends HttpServlet {
             } catch (Exception exception) {
                 currentTime = "no info";
             }
-            String executionTime = String.format("%.9f", (Double) ((System.nanoTime() - startTime) / 1_000_000_000.0));
+            String executionTime = String.format("%.9f", (System.nanoTime() - startTime) / 1_000_000_000.0);
 
             RawBean raws = (RawBean) req.getSession().getAttribute("table");
             if (raws == null) raws = new RawBean();
@@ -111,15 +108,15 @@ public class AreaCheckServlet extends HttpServlet {
         return dr;
     }
 
-    private boolean insideCircle(double x, double y, double r) {
-        return x <= 0 && y >= 0 && x * x + y * y <= (r / 2) * (r / 2);
+    private boolean insideCircle(double x, int y, int r) {
+        return x <= 0 && y >= 0 && x * x + y * y <= (r / 2f) * (r / 2f);
     }
 
-    private boolean insideTriangle(double x, double y, double r) {
-        return x >= 0 && y <= 0 && y <= -x + r / 2;
+    private boolean insideTriangle(double x, int y, int r) {
+        return x >= 0 && y <= 0 && y <= -x + r / 2f;
     }
 
-    private boolean insideRectangle(double x, double y, double r) {
+    private boolean insideRectangle(double x, int y, int r) {
         return x >= 0 && y <= 0 && x >= -r && y >= -r / 2;
     }
 }
