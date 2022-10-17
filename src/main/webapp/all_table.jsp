@@ -7,13 +7,13 @@
 --%>
 <%@ page import="ru.itmo.potatocoder228.lab2.beans.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="results">
-    <jsp:useBean id="table" class="ru.itmo.potatocoder228.lab2.beans.RawBean" scope="session"/>
+<jsp:useBean id="table" class="ru.itmo.potatocoder228.lab2.beans.RawBean" scope="session"/>
 
 <%
     if (table != null) {
         for (Raw check : table.getRaws()) {
 %>
+<div class="results">
     <div class="table_column" id="x"><%=check.getX()%>
     </div>
     <div class="table_column" id="y"><%=check.getY()%>

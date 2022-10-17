@@ -152,7 +152,25 @@ $("#form").on("submit", function (event) {
 $(".reset_button").on("click", function (e) {
     e.preventDefault();
     const params = {'clear': true}
-    window.location.replace("control" + formatParams(params));
+    $.ajax({
+        url: 'control', method: "POST",
+        data: formatParams(params),
+        dataType: "html",
+
+        success: function (data) {
+            console.log(data);
+            $(".validate_button").attr("disabled", false);
+
+            window.location.replace("control" + formatParams(params));
+            //window.localStorage.setItem("table",data["table"]);
+            //window.location.replace("result_page.jsp");
+            //$("#result_table>tbody").html(data);
+        },
+        error: function (error) {
+            console.log(error);
+            $(".reset_button").attr("disabled", false);
+        },
+    });
 
 })
 

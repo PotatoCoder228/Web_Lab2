@@ -45,8 +45,9 @@ input[type="submit"]:active {
     width: 100%;
     min-width: 20px;
     box-sizing: border-box;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
+    table-layout: fixed;
+    overflow: scroll;
 }
 
 /*
@@ -69,8 +70,11 @@ input[type="submit"]:active {
     display: table-cell;
     vertical-align: top;
     text-align: center;
+    overflow: scroll;
     word-break: break-all;
     box-sizing: content-box;
+    table-layout: fixed;
+    max-height: 20px;
     font-family: "Agency FB";
 }
 
@@ -104,11 +108,10 @@ input[type="submit"]:active {
 }
 
 .result_table_container {
-    margin-top: 0%;
+    margin-top: 0;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    display: table;
     width: 100%;
     table-layout: fixed;
 }
@@ -134,8 +137,9 @@ input[type="submit"]:active {
 }
 
 .right_column {
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 0;
+    margin-right: 0;
+    position: fixed;
 }
 
 .y_page, .x_page, .r_page {
@@ -151,4 +155,29 @@ input[type="submit"]:active {
     margin: 10px;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+#hit, #time, #running {
+    font-family: "Agency FB";
+    width: auto;
+    min-width: 30%;
+}
+
+#x,
+#y,
+#r {
+    table-layout: fixed;
+    width: auto;
+    min-width: 50px;
+    font-family: "Agency FB";
+}
+
+.results {
+    display: table;
+    table-layout: fixed;
+}
+.content{
+    overflow: scroll;
+    overflow-x: hidden;
+    max-height: 500px;
 }

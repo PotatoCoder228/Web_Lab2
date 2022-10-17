@@ -154,14 +154,14 @@ canvas.addEventListener('click', (event) => {
 
         $.ajax({
             url: 'control', method: "POST",
-            data: "&"+formatParams(params) + "&timezone=" + new Date().getTimezoneOffset(),
+            data: "&" + formatParams(params) + "&timezone=" + new Date().getTimezoneOffset(),
             dataType: "html",
 
             success: function (data) {
                 console.log(data);
                 $(".validate_button").attr("disabled", false);
 
-                window.location.replace("control"+formatParams(params));
+                window.location.replace("control" + formatParams(params));
                 //window.localStorage.setItem("table",data["table"]);
                 //window.location.replace("result_page.jsp");
                 //$("#result_table>tbody").html(data);

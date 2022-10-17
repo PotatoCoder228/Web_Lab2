@@ -101,19 +101,20 @@
     <div id="right_column" class="column">
         <div class="column_name" id="results">Results</div>
         <div class="result_table_container" id="table_container">
-            <div class="table_column" id="column_x">X</div>
-            <div class="table_column" id="column_y">Y</div>
-            <div class="table_column" id="column_R">R</div>
-            <div class="table_column" id="column_hit">Hit fact</div>
-            <div class="table_column" id="column_time">Current time</div>
-            <div class="table_column" id="run_time">Script running time, sec</div>
-        </div>
-        <div class="content">
-            <jsp:include page="all_table.jsp"/>
+            <div class="result_table">
+                <div class="table_column" id="column_x">X</div>
+                <div class="table_column" id="column_y">Y</div>
+                <div class="table_column" id="column_R">R</div>
+                <div class="table_column" id="column_hit">Hit fact</div>
+                <div class="table_column" id="column_time">Current time</div>
+                <div class="table_column" id="run_time">Script running time, sec</div>
+            </div>
+            <div class="content">
+                <jsp:include page="all_table.jsp"/>
+            </div>
         </div>
     </div>
 </div>
-<div class="boots">I T M O , September 2022</div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="js/graph.js"></script>
 <script src="js/slider.js"></script>
