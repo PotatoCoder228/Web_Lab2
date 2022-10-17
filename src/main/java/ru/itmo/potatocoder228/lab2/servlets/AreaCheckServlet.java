@@ -14,8 +14,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.lang.System.out;
-
 /**
  * AreaCheckServlet - handling hit point and getting html-page
  * with results of handle
@@ -31,8 +29,7 @@ public class AreaCheckServlet extends HttpServlet {
         String y = req.getParameter("y");
         String r = req.getParameter("r");
 
-        double xValue;
-        int yValue, rValue;
+        double xValue, yValue, rValue;
         try {
             if (x == null || x.equals("")) throw new WrongDataException("x not set");
             if (y == null || y.equals("")) throw new WrongDataException("y not set");
@@ -79,17 +76,17 @@ public class AreaCheckServlet extends HttpServlet {
         double dx;
         try {
             dx = Double.parseDouble(x);
-            if (dx > 4 || dx < -4) throw new WrongDataException("x is wrong format: " + dx);
+            if (dx >= 3 || dx <= -3) throw new WrongDataException("x is wrong format: " + dx);
         } catch (NumberFormatException e) {
             throw new WrongDataException("x is wrong format");
         }
         return dx;
     }
 
-    private int validateY(String y) throws WrongDataException {
-        int dy;
+    private double validateY(String y) throws WrongDataException {
+        double dy;
         try {
-            dy = Integer.parseInt(y);
+            dy = Double.parseDouble(y);
             if (!(-4.0 <= dy && dy <= 4.0)) throw new WrongDataException("y is wrong format: " + dy);
         } catch (NumberFormatException e) {
             throw new WrongDataException("y is wrong format");
@@ -97,26 +94,26 @@ public class AreaCheckServlet extends HttpServlet {
         return dy;
     }
 
-    private int validateR(String r) throws WrongDataException {
-        int dr;
+    private double validateR(String r) throws WrongDataException {
+        double dr;
         try {
-            dr = Integer.parseInt(r);
-            if ((dr <= 1) || (dr >= 5)) throw new WrongDataException("r is wrong format");
+            dr = Double.parseDouble(r);
+            if ((dr < 1) || (dr > 5)) throw new WrongDataException("r is wrong format");
         } catch (NumberFormatException e) {
             throw new WrongDataException("r is wrong format");
         }
         return dr;
     }
 
-    private boolean insideCircle(double x, int y, int r) {
+    private boolean insideCircle(double x, double y, double r) {
         return x <= 0 && y >= 0 && x * x + y * y <= (r / 2f) * (r / 2f);
     }
 
-    private boolean insideTriangle(double x, int y, int r) {
+    private boolean insideTriangle(double x, double y, double r) {
         return x >= 0 && y <= 0 && y <= -x + r / 2f;
     }
 
-    private boolean insideRectangle(double x, int y, int r) {
+    private boolean insideRectangle(double x, double y, double r) {
         return x >= 0 && y <= 0 && x >= -r && y >= -r / 2;
     }
 }

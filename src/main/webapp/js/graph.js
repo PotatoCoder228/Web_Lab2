@@ -9,7 +9,6 @@ const baseHatchGap = 30;
 var hatchGap = 20;
 var rValue = 1;
 
-
 function redrawGraph() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -129,12 +128,13 @@ function getMousePosition(e) {
 }
 
 canvas.addEventListener('click', (event) => {
+    rValue = rCoordinate.value;
     removeValidation();
-    if (!isNaN(rValue)) {
+    if (!isNaN(rValue) && rValue !== 0) {
         const x = getMousePosition(event).x;
         const y = getMousePosition(event).y;
-        const xCenter = Math.round((x - w / 2) / (hatchGap * (2 / rValue)) * 100) / 100,
-            yCenter = Math.round((h / 2 - y) / (hatchGap * (2 / rValue)) * 100) / 100;
+        const xCenter = Math.round((x - w / 2) / (hatchGap * (2 / rValue)) * 1000) / 1000,
+            yCenter = Math.round((h / 2 - y) / (hatchGap * (2 / rValue)) * 1000) / 1000;
         console.log(xCenter, yCenter);
 
         if (xCenter >= 3 || xCenter <= -3) {
@@ -151,37 +151,32 @@ canvas.addEventListener('click', (event) => {
             'r': rValue,
             'timezone': new Date().getTimezoneOffset()
         }
+
         $.ajax({
-        url: 'control', method: "POST",
-        data: $(this).serialize() + "&timezone=" + new Date().getTimezoneOffset(),
-        dataType: "html",
+            url: 'control', method: "POST",
+            data: "&"+formatParams(params) + "&timezone=" + new Date().getTimezoneOffset(),
+            dataType: "html",
 
-        success: function (data) {
-            console.log(data);
-            $(".validate_button").attr("disabled", false);
-            const params = {
-                'x': xCoordinate.value,
-                'y': yCoordinate.value,
-                'r': rCoordinate.value,
-                'timezone': new Date().getTimezoneOffset()
-            }
+            success: function (data) {
+                console.log(data);
+                $(".validate_button").attr("disabled", false);
 
-            window.location.replace("control" + formatParams(params));
-            //window.localStorage.setItem("table",data["table"]);
-            //window.location.replace("result_page.jsp");
-            //$("#result_table>tbody").html(data);
-        },
-        error: function (error) {
-            console.log(error);
-            $(".validate_button").attr("disabled", false);
-        },
-    });
+                window.location.replace("control"+formatParams(params));
+                //window.localStorage.setItem("table",data["table"]);
+                //window.location.replace("result_page.jsp");
+                //$("#result_table>tbody").html(data);
+            },
+            error: function (error) {
+                console.log(error);
+                $(".validate_button").attr("disabled", false);
+            },
+        });
     } else {
         alert("Error: R field is incorrect!")
     }
 });
-$("select").on('click', function(event) {
-  console.log(rCoordinate.value);
-  rValue = rCoordinate.value;
-  redrawDataOnGraph();
+$("select").on('click', function (event) {
+    console.log(rCoordinate.value);
+    rValue = rCoordinate.value;
+    redrawDataOnGraph();
 });

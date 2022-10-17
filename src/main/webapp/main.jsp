@@ -84,9 +84,9 @@
                     <b>Input R:</b>
                 </div>
                 <div class="r_page">
-                    <select id="r_value" name = "r">
-                        <option name = "r" disabled>Выберите значение</option>
-                        <option class="r_input" name="r" value="1">1</option>
+                    <select id="r_value" name="r">
+                        <option name="r" disabled>Выберите значение</option>
+                        <option class="r_input" name="r" value="1" selected>1</option>
                         <option class="r_input" name="r" value="2">2</option>
                         <option class="r_input" name="r" value="3">3</option>
                         <option class="r_input" name="r" value="4">4</option>

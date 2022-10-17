@@ -7,25 +7,25 @@
 --%>
 <%@ page import="ru.itmo.potatocoder228.lab2.beans.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="table" class="ru.itmo.potatocoder228.lab2.beans.RawBean" scope="session"/>
+<div class="results">
+    <jsp:useBean id="table" class="ru.itmo.potatocoder228.lab2.beans.RawBean" scope="session"/>
 
 <%
     if (table != null) {
         for (Raw check : table.getRaws()) {
 %>
-<div class="results">
-    <div class="table_column" class="x"><%=check.getX()%>
+    <div class="table_column" id="x"><%=check.getX()%>
     </div>
-    <div class="table_column" class="y"><%=check.getY()%>
+    <div class="table_column" id="y"><%=check.getY()%>
     </div>
-    <div class="table_column" class="r"><%=check.getR()%>
+    <div class="table_column" id="r"><%=check.getR()%>
     </div>
-    <div class="table_column" class="hit" style='color:<%=(check.getHitFact() ? "lime" : "red")%>'>
+    <div class="table_column" id="hit" style='color:<%=(check.getHitFact() ? "lime" : "red")%>'>
         <%= check.getHitFact() ? "hit" : "miss" %>
     </div>
-    <div class="table_column" class="time"><%=check.getCurrentTime()%>
+    <div class="table_column" id="time"><%=check.getCurrentTime()%>
     </div>
-    <div class="table_column" class="running"><%=check.getExecutionTime()%>
+    <div class="table_column" id="running"><%=check.getExecutionTime()%>
     </div>
 </div>
 <%

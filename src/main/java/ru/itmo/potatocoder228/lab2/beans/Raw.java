@@ -6,8 +6,8 @@ public class Raw implements Serializable {
     private static final long serialVersionUID = 1234567L;
 
     private double x;
-    private int y;
-    private int R;
+    private double y;
+    private double R;
     private String currentTime;
     private String executionTime;
     private boolean hitFact;
@@ -16,7 +16,7 @@ public class Raw implements Serializable {
 
     }
 
-    public Raw(double x, int y, int r, String current, String execution, boolean res) {
+    public Raw(double x, double y, double r, String current, String execution, boolean res) {
         this.x = x;
         this.y = y;
         this.R = r;
@@ -25,7 +25,7 @@ public class Raw implements Serializable {
         hitFact = res;
     }
 
-    public int getR() {
+    public double getR() {
         return R;
     }
 
@@ -33,7 +33,7 @@ public class Raw implements Serializable {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 

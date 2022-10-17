@@ -6,12 +6,12 @@ let rCoordinate = document.getElementById("r_value");
 var table = [];
 
 function isNumber(s) {
-  let n = parseFloat(s.replace(',', '.'));
-  return !isNaN(n) && isFinite(n);
+    let n = parseFloat(s.replace(',', '.'));
+    return !isNaN(n) && isFinite(n);
 }
 
 function formatParams(params) {
-    return "?" + Object
+    return "?&" + Object
         .keys(params)
         .map(function (key) {
             return key + "=" + encodeURIComponent(params[key])
@@ -21,64 +21,63 @@ function formatParams(params) {
 
 //функция для генерации ошибок
 function generateTip(text, color) {
-  var tip = document.createElement('div');
-  tip.className = 'tip';
-  tip.style.color = color;
-  tip.innerHTML = text;
-  return tip;
+    var tip = document.createElement('div');
+    tip.className = 'tip';
+    tip.style.color = color;
+    tip.innerHTML = text;
+    return tip;
 }
 
 
 var $checkbox = false;
+
 //функция для очистки подсказок при повторной валидации
 function removeValidation() {
-  var tips = document.querySelectorAll('.tip')
-  for (var i = 0; i < tips.length; i++) {
-    tips[i].remove()
-  }
+    var tips = document.querySelectorAll('.tip')
+    for (var i = 0; i < tips.length; i++) {
+        tips[i].remove()
+    }
 }
 
 
 // проверка значения в поле на попадание в заданный диапазон
 function validateField(coordinate, min, max) {
-  if (coordinate.value) {
-    coordinate.value = coordinate.value.replace(',', '.');
-    if (coordinate.value < min || coordinate.value > max || !isNumber(coordinate.value)) {
-      var error = generateTip('Wrong number format', 'red')
-      coordinate.parentElement.insertBefore(error, coordinate)
-      return false;
+    if (coordinate.value) {
+        coordinate.value = coordinate.value.replace(',', '.');
+        if (coordinate.value < min || coordinate.value > max || !isNumber(coordinate.value)) {
+            var error = generateTip('Wrong number format', 'red')
+            coordinate.parentElement.insertBefore(error, coordinate)
+            return false;
+        } else {
+            let correct = generateTip('Correct data', 'green');
+            coordinate.parentElement.insertBefore(correct, coordinate)
+            return true;
+        }
     }
-    else {
-      let correct = generateTip('Correct data', 'green');
-      coordinate.parentElement.insertBefore(correct, coordinate)
-      return true;
-    }
-  }
-  var error = generateTip('field is blank', 'red');
-  coordinate.parentElement.insertBefore(error, coordinate);
-  return false;
+    var error = generateTip('field is blank', 'red');
+    coordinate.parentElement.insertBefore(error, coordinate);
+    return false;
 }
 
 function validateCheckBox(coordinate, min, max) {
-  if (coordinate.value) {
-    if (coordinate.value < min || coordinate.value > max || !isNumber(coordinate.value)|| !$checkbox) {
-      var error = generateTip('Wrong number format', 'red')
-      coordinate.parentElement.insertBefore(error, coordinate)
-      return false;
+    if (coordinate.value) {
+        if (coordinate.value < min || coordinate.value > max || !isNumber(coordinate.value) || !$checkbox) {
+            var error = generateTip('Wrong number format', 'red')
+            coordinate.parentElement.insertBefore(error, coordinate)
+            return false;
+        } else {
+            let correct = generateTip('Correct data', 'green');
+            coordinate.parentElement.insertBefore(correct, coordinate)
+            return true;
+        }
     }
-    else {
-      let correct = generateTip('Correct data', 'green');
-      coordinate.parentElement.insertBefore(correct, coordinate)
-      return true;
-    }
-  }
-  var error = generateTip('field is blank', 'red');
-  coordinate.parentElement.insertBefore(error, coordinate);
-  return false;
+    var error = generateTip('field is blank', 'red');
+    coordinate.parentElement.insertBefore(error, coordinate);
+    return false;
 }
 
 function validateAll() {
-  return validateField(xCoordinate, -3, 3) && validateCheckBox(yCoordinate, -4, 4)
+    return validateField(xCoordinate, -3, 3) && validateCheckBox(yCoordinate, -4, 4)
 }
 
 function redrawDataOnGraph() {
@@ -96,16 +95,17 @@ $(document).ready(function () {
     table = [];
     $(".results").each(function (i, el) {
         var self = $(this);
-        var x = self.find(".x").text().trim();
-        var y = self.find(".y").text().trim();
-        var r = self.find(".r").text().trim();
-        var hit = self.find(".hit").text().trim() == "hit" ? true : false;
+        var x = self.find("#x").text().trim();
+        var y = self.find("#y").text().trim();
+        var r = self.find("#r").text().trim();
+        var hit = self.find("#hit").text().trim() == "hit" ? true : false;
         var result = `${x}, ${y}, ${r}, ${hit}`;
         console.log(result);
         var raw = {x: x, y: y, r: r, hit: hit};
         table[i] = raw;
     });
     if (table.length > 0) rValue = table[table.length - 1].r;
+    rValue = rValue = rCoordinate.value;
     redrawDataOnGraph(rValue);
 
 });
@@ -123,11 +123,11 @@ $("#form").on("submit", function (event) {
     }
     console.log("data sending...")
     const params = {
-                'x': xCoordinate.value,
-                'y': yCoordinate.value,
-                'r': rCoordinate.value,
-                'timezone': new Date().getTimezoneOffset()
-            }
+        'x': xCoordinate,
+        'y': yCoordinate,
+        'r': rCoordinate,
+        'timezone': new Date().getTimezoneOffset()
+    }
     $.ajax({
         url: 'control', method: "POST",
         data: $(this).serialize() + "&timezone=" + new Date().getTimezoneOffset(),
@@ -136,14 +136,8 @@ $("#form").on("submit", function (event) {
         success: function (data) {
             console.log(data);
             $(".validate_button").attr("disabled", false);
-            const params = {
-                'x': xCoordinate.value,
-                'y': yCoordinate.value,
-                'r': rCoordinate.value,
-                'timezone': new Date().getTimezoneOffset()
-            }
 
-            window.location.replace("control" + formatParams(params));
+            window.location.replace("result_page.jsp");
             //window.localStorage.setItem("table",data["table"]);
             //window.location.replace("result_page.jsp");
             //$("#result_table>tbody").html(data);
@@ -174,8 +168,8 @@ $("input:checkbox").on('click', function () {
     }
 });
 
-$("select").on('click', function(event) {
-  console.log(rCoordinate.value);
-  rValue = rCoordinate.value;
-  redrawDataOnGraph();
+$("select").on('click', function (event) {
+    console.log(rCoordinate.value);
+    rValue = rCoordinate.value;
+    redrawDataOnGraph();
 });
