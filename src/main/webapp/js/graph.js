@@ -60,14 +60,19 @@ function redrawGraph() {
 
     ctx.fillStyle = 'rgba(80,92,236,0.33)';
     ctx.beginPath();
-    ctx.moveTo(w / 2 - hatchGap, h / 2);
-    ctx.lineTo(w / 2 - hatchGap, h / 2 - 2 * hatchGap);
-    ctx.lineTo(w / 2, h / 2 - 2 * hatchGap);
-    ctx.lineTo(w / 2, h / 2 - hatchGap);
-    ctx.arc(w / 2, h / 2, hatchGap, 0, 1 / 2 * Math.PI, false);
-    ctx.lineTo(w / 2, h / 2 + hatchGap);
-    ctx.lineTo(w / 2, h / 2);
-    ctx.lineTo(w / 2 - hatchGap, h / 2);
+    ctx.moveTo(w / 2 - 2*hatchGap, h / 2);
+    ctx.lineTo(w / 2 - 2*hatchGap, h / 2 + hatchGap);
+    ctx.lineTo(w/2, h/2+hatchGap);
+    ctx.lineTo(w/2+2*hatchGap, h/2);
+    ctx.lineTo(w/2, h/2);
+    ctx.moveTo(w / 2 - 2*hatchGap, h / 2);
+    ctx.lineTo(w/2-hatchGap, h/2);
+    ctx.moveTo(w/2, h/2);
+    ctx.lineTo(w/2, h/2-hatchGap);
+    ctx.moveTo(w/2, h/2-hatchGap);
+    ctx.moveTo(w/2-hatchGap, h/2);
+    ctx.lineTo(w/2, h/2);
+    ctx.arc(w/2, h/2, hatchGap, -Math.PI/2, -Math.PI,true);
 
     ctx.fill();
     ctx.strokeStyle = '#0115fd';
