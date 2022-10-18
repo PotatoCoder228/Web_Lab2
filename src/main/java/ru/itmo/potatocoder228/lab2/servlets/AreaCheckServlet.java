@@ -110,11 +110,11 @@ public class AreaCheckServlet extends HttpServlet {
     }
 
     private boolean insideTriangle(double x, double y, double r) {
-        return x >= 0 && y <= 0 && y <= -x + r / 2f;
+        return x >= 0 && x <= r && y <= 0 && y >= -r/2f && (y/(r-x)) > -0.5;
     }
 
     private boolean insideRectangle(double x, double y, double r) {
-        return x >= 0 && y <= 0 && x >= -r && y >= -r / 2;
+        return x <= 0 && y <= 0 && x >= -r && y >= -r / 2;
     }
 }
 
